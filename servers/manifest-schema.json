@@ -1,0 +1,137 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DC Server Manifest Schema",
+  "description": "Schema for Dream Client server manifest files",
+  "type": "object",
+  "required": [ "id", "name", "description", "addresses", "primaryAddress", "minecraftVersions", "primaryMinecraftVersion", "categories", "assets" ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique server identifier (lowercase, alphanumeric, hyphens)",
+      "pattern": "^[a-z0-9-]+$",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the server",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description of the server",
+      "minLength": 16,
+      "maxLength": 80
+    },
+    "addresses": {
+      "type": "array",
+      "description": "Server addresses / domains",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9.-]+$"
+      },
+      "minItems": 1
+    },
+    "primaryAddress": {
+      "type": "string",
+      "description": "Primary server address shown to users",
+      "pattern": "^[a-zA-Z0-9.-]+$"
+    },
+    "minecraftVersions": {
+      "type": "array",
+      "description": "Supported Minecraft versions (wildcards allowed, e.g. 1.8.*)",
+      "items": {
+        "type": "string",
+        "pattern": "^\\d+\\.\\d+(\\.\\*|\\.[0-9]+)?$"
+      }
+    },
+    "primaryMinecraftVersion": {
+      "type": "string",
+      "description": "Primary/recommended Minecraft version for the server",
+      "pattern": "^\\d+\\.\\d+(\\.\\*|\\.[0-9]+)?$"
+    },
+    "categories": {
+      "type": "array",
+      "description": "Server categories",
+      "items": {
+        "type": "string",
+        "enum": [
+          "PVP",
+          "SURVIVAL",
+          "CREATIVE",
+          "MINIGAMES",
+          "SKYBLOCK",
+          "PRISON",
+          "FACTIONS",
+          "UHC",
+          "KITPVP",
+          "ANARCHY",
+          "RPG",
+          "ADVENTURE",
+          "BUILD",
+          "TECHNICAL",
+          "VANILLA",
+          "MODDED",
+          "PARKOUR",
+          "BEDWARS",
+          "SKYWARS",
+          "HG",
+          "CITYBUILD",
+          "CUSTOM"
+        ]
+      },
+      "minItems": 1
+    },
+    "languages": {
+      "type": "array",
+      "description": "Languages supported by the server (ISO 639-1 uppercase)",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]{2}$"
+      }
+    },
+    "primaryLanguage": {
+      "type": "string",
+      "description": "Primary language of the server (ISO 639-1 uppercase)",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "offline": {
+      "type": "boolean",
+      "description": "Whether the server allows cracked (offline-mode) players"
+    },
+    "assets": {
+      "type": "object",
+      "description": "Server visual assets",
+      "required": ["icon", "background"],
+      "properties": {
+        "icon": {
+          "type": "string",
+          "pattern": "^\\./.*\\.(png|jpg|jpeg)$",
+          "description": "Path to server icon (square PNG, 64–512px)"
+        },
+        "background": {
+          "type": "string",
+          "pattern": "^\\./.*\\.(png|jpg|jpeg)$",
+          "description": "Path to server background (PNG, 1920x1080)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "social": {
+      "type": "object",
+      "description": "Social media and external links",
+      "properties": {
+        "website": { "type": "string", "format": "uri" },
+        "store": { "type": "string", "format": "uri" },
+        "discord": { "type": "string", "format": "uri" },
+        "youtube": { "type": "string", "format": "uri" },
+        "twitter": { "type": "string", "format": "uri" },
+        "instagram": { "type": "string", "format": "uri" },
+        "tiktok": { "type": "string", "format": "uri" },
+        "facebook": { "type": "string", "format": "uri" },
+        "teamspeak": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

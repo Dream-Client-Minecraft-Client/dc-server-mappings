@@ -1,0 +1,92 @@
+name: Sprawdź wpisy i grafiki
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "servers/**/*.png"
+      - "servers/**/manifest.json"
+
+  pull_request_target:
+    paths:
+      - "servers/**/*.png"
+      - "servers/**/manifest.json"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Pobierz kod
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Skonfiguruj Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Zainstaluj zależności
+        run: npm ci
+
+      - name: Wykryj zmienione foldery (tylko PR)
+        if: github.event_name == 'pull_request_target'
+        id: changed-folders
+        run: |
+          BASE_SHA=${{ github.event.pull_request.base.sha }}
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+          CHANGED_FILES=$(git diff --name-only $BASE_SHA $HEAD_SHA | grep '^servers/' || true)
+
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "Brak zmienionych plików w servers/"
+            echo "folders=" >> $GITHUB_OUTPUT
+          else
+            FOLDERS=$(echo "$CHANGED_FILES" | cut -d'/' -f2 | sort -u | tr '\n' ',' | sed 's/,$//')
+            echo "Zmienione foldery: $FOLDERS"
+            echo "folders=$FOLDERS" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Sprawdź wszystkie wpisy (push na main)
+        if: github.event_name == 'push'
+        run: npm run validate:servers
+
+      - name: Sprawdź zmienione wpisy (PR)
+        if: github.event_name == 'pull_request_target' && steps.changed-folders.outputs.folders != ''
+        id: check-pr
+        continue-on-error: true
+        run: |
+          npm run validate:servers -- --folders="${{ steps.changed-folders.outputs.folders }}" 2>&1 | tee validate-output.log
+          echo "exit_code=${PIPESTATUS[0]}" >> $GITHUB_OUTPUT
+
+      - name: Sprawdź wymiary grafik
+        id: validate-images
+        continue-on-error: true
+        run: |
+          npm run validate:assets 2>&1 | tee images-output.log
+          echo "exit_code=${PIPESTATUS[0]}" >> $GITHUB_OUTPUT
+
+      - name: Opublikuj wyniki w komentarzu PR
+        if: github.event_name == 'pull_request_target' && steps.changed-folders.outputs.folders != ''
+        uses: actions/github-script@v7
+        env:
+          CHECKED_FOLDERS: ${{ steps.changed-folders.outputs.folders }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const postFeedback = require('./tools/pr-feedback.js');
+            await postFeedback({ github, context, core });
+
+      - name: Zakończ błędem jeśli sprawdzenia nie przeszły
+        if: >
+          github.event_name == 'pull_request_target' &&
+          (steps.check-pr.outputs.exit_code != '0' || steps.validate-images.outputs.exit_code != '0')
+        run: |
+          echo "Walidacja nieudana. Sprawdź błędy powyżej."
+          exit 1

@@ -1,0 +1,22 @@
+{
+  "name": "dc-server-mappings",
+  "version": "1.0.0",
+  "description": "Dream Client server mapping validation and build tooling",
+  "scripts": {
+    "validate": "node tools/validate-servers.js && node tools/validate-images.js",
+    "validate:servers": "node tools/validate-servers.js",
+    "validate:assets": "node tools/validate-images.js",
+    "fix": "node tools/validate-images.js --fix",
+    "build": "node tools/build.js",
+    "format": "prettier --write '**/*.json' 'tools/**/*.js'",
+    "format:check": "prettier --check '**/*.json' 'tools/**/*.js'"
+  },
+  "devDependencies": {
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1",
+    "prettier": "^3.7.4"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

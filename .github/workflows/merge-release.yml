@@ -1,0 +1,45 @@
+name: Zbuduj i opublikuj release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "servers/**/*.png"
+      - "servers/**/manifest.json"
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pobierz kod
+        uses: actions/checkout@v4
+
+      - name: Skonfiguruj Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Zainstaluj zależności
+        run: npm ci
+
+      - name: Zbuduj plik wynikowy
+        run: npm run build
+
+      - name: Spakuj katalog dist
+        run: zip -r dist.zip dist
+
+      - name: Utwórz tag
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name  "github-actions[bot]"
+          git tag release-${GITHUB_SHA::7}
+          git push origin release-${GITHUB_SHA::7}
+
+      - name: Utwórz GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files:    dist.zip
+          tag_name: release-${{ github.sha }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
