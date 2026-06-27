@@ -11,11 +11,11 @@ Narzędzia zawarte w projekcie automatycznie sprawdzają poprawność każdego z
 ## Struktura katalogów
 
 ```
-servers/          — jeden podfolder na serwer (manifest.json + grafiki)
-tools/            — skrypty Node.js do walidacji i budowania
-.github/          — konfiguracja GitHub Actions i szablon PR
-docs/             — dokumentacja
-dist/             — wygenerowany plik wynikowy (tworzony automatycznie)
+servers/ — jeden podfolder na serwer (manifest.json + grafiki)
+tools/   — skrypty Node.js do walidacji i budowania
+.github/ — konfiguracja GitHub Actions i szablon PR
+docs/    — dokumentacja
+dist/    — wygenerowany plik wynikowy (tworzony automatycznie)
 ```
 
 ## Dokumentacja
