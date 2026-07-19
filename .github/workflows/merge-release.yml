@@ -7,6 +7,7 @@ on:
     paths:
       - "servers/**/*.png"
       - "servers/**/manifest.json"
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -63,8 +64,13 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name  "github-actions[bot]"
-          git tag release-${GITHUB_SHA::7}
-          git push origin release-${GITHUB_SHA::7}
+          TAG="release-${GITHUB_SHA::7}"
+          if git ls-remote --tags origin | grep -q "refs/tags/$TAG$"; then
+            echo "Tag $TAG już istnieje na origin, pomijam (prawdopodobnie ręczny re-run tego samego commita)."
+          else
+            git tag "$TAG"
+            git push origin "$TAG"
+          fi
 
       - name: Utwórz GitHub Release
         uses: softprops/action-gh-release@v2
