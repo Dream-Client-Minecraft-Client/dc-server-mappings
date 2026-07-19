@@ -1,0 +1,60 @@
+{
+  "servers": {
+    "hypixel": {
+      "id": "hypixel",
+      "name": "Hypixel",
+      "description": "Play the best Minecraft minigames for free!",
+      "minecraftVersions": [
+        "1.8.*",
+        "1.12.*",
+        "1.16.*",
+        "1.17.*",
+        "1.18.*",
+        "1.19.*",
+        "1.20.*",
+        "1.21.*",
+        "26.1.*",
+        "26.2.*"
+      ],
+      "primaryMinecraftVersion": "1.8.9",
+      "addresses": [
+        "hypixel.net",
+        "hypixel.io"
+      ],
+      "primaryAddress": "hypixel.net",
+      "categories": [
+        "PVP",
+        "SURVIVAL",
+        "PARKOUR"
+      ],
+      "languages": [
+        "PL",
+        "EN"
+      ],
+      "primaryLanguage": "EN",
+      "offline": false,
+      "assets": {
+        "icon": "./assets/hypixel/icon.png",
+        "background": "./assets/hypixel/background.png"
+      },
+      "social": {
+        "website": "https://hypixel.net",
+        "store": "https://store.hypixel.net",
+        "discord": "https://discord.com/invite/Hypixel",
+        "facebook": "https://www.facebook.com/Hypixel",
+        "youtube": "https://www.youtube.com/@Hypixel",
+        "twitter": "https://x.com/hypixelnetwork",
+        "instagram": "https://www.instagram.com/hypixelofficial",
+        "tiktok": "https://www.tiktok.com/@hypixel",
+        "teamspeak": "ts3://ts.hypixel.net"
+      }
+    }
+  },
+  "metadata": {
+    "totalServers": 1,
+    "builtAt": "2026-07-19T09:35:12.274Z",
+    "sourceFolders": [
+      "hypixel"
+    ]
+  }
+}
