@@ -1,0 +1,44 @@
+{
+  "id": "dragonsurvival",
+  "name": "Dragon Survival",
+  "description": "Najlepszy polski serwer survival + gildie!",
+  "minecraftVersions": [
+    "1.8.*",
+    "1.12.*",
+    "1.16.*",
+    "1.17.*",
+    "1.18.*",
+    "1.19.*",
+    "1.20.*",
+    "1.21.*"
+  ],
+  "primaryMinecraftVersion": "1.8.9",
+  "addresses": [
+    "dragon-survival.eu",
+    "dragonsurvival.eu",
+    "dragonsurvival.pl",
+    "dragon-survival.pl"
+  ],
+  "primaryAddress": "dragonsurvival.eu",
+  "categories": [
+    "PVP",
+    "SURVIVAL"
+  ],
+  "languages": [
+    "PL"
+  ],
+  "primaryLanguage": "PL",
+  "offline": false,
+  "assets": {
+    "icon": "./icon.png",
+    "background": "./bg.png"
+  },
+  "social": {
+    "website": "https://dragon-survival.eu",
+    "store": "https://dragon-survival.eu/shop",
+    "discord": "https://discord.gg/gjYnkvm2jf",
+    "facebook": "https://www.facebook.com/DragonSurvivalMC",
+    "instagram": "https://www.instagram.com/dragonsurvivalmc",
+    "teamspeak": "ts3://dragon-ts.eu"
+  }
+}
