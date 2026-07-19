@@ -12,8 +12,8 @@ Pełny schemat walidacyjny dostępny jest w `servers/manifest-schema.json`.
 servers/
 └── id-twojego-serwera/
     ├── manifest.json
-    ├── icon.png
-    └── bg.png
+    ├── icon.png   (opcjonalnie)
+    └── bg.png     (opcjonalnie)
 ```
 
 Nazwa folderu musi być identyczna z wartością pola `id` w manifeście.
@@ -22,7 +22,7 @@ Nazwa folderu musi być identyczna z wartością pola `id` w manifeście.
 
 ## Minimalny manifest
 
-To jest najmniejszy poprawny manifest — zawiera tylko wymagane pola:
+To jest najmniejszy poprawny manifest — zawiera tylko wymagane pola (bez `assets`, bo to pole jest w pełni opcjonalne, patrz sekcja niżej):
 
 ```json
 {
@@ -33,11 +33,7 @@ To jest najmniejszy poprawny manifest — zawiera tylko wymagane pola:
   "primaryAddress": "play.twojserwer.pl",
   "minecraftVersions": ["1.8.*"],
   "primaryMinecraftVersion": "1.8.*",
-  "categories": ["SURVIVAL"],
-  "assets": {
-    "icon": "./icon.png",
-    "background": "./bg.png"
-  }
+  "categories": ["SURVIVAL"]
 }
 ```
 
@@ -55,7 +51,6 @@ To jest najmniejszy poprawny manifest — zawiera tylko wymagane pola:
 | `minecraftVersions`         | tablica stringów | Obsługiwane wersje Minecrafta, wildcards dozwolone         | `["1.8.*", "1.21.*"]`            |
 | `primaryMinecraftVersion`   | string           | Główna/zalecana wersja Minecrafta dla serwera              | `"1.21.*"`                       |
 | `categories`                | tablica stringów | Kategorie opisujące tryby gry (patrz tabela niżej)         | `["SURVIVAL", "PVP"]`            |
-| `assets`                    | obiekt           | Ścieżki do ikony i tła (względne, zaczynające się od `./`) | `{"icon": "./icon.png", ...}`    |
 
 ---
 
@@ -66,6 +61,7 @@ To jest najmniejszy poprawny manifest — zawiera tylko wymagane pola:
 | `languages`       | tablica stringów | Języki serwera — kody ISO 639-1 dużymi literami, np. `PL`, `EN`, `DE` |
 | `primaryLanguage` | string           | Główny język serwera (musi być w `languages`)                          |
 | `offline`         | boolean          | `true` jeśli serwer akceptuje graczy z nieoryginalnym kontem (offline) |
+| `assets`          | obiekt           | Ścieżki do ikony i/lub tła (patrz sekcja "Zasoby graficzne" niżej)     |
 | `social`          | obiekt           | Linki do stron i mediów społecznościowych (patrz sekcja poniżej)       |
 
 ---
@@ -99,6 +95,28 @@ To jest najmniejszy poprawny manifest — zawiera tylko wymagane pola:
 
 ---
 
+## Zasoby graficzne
+
+Pole `assets` jest w pełni opcjonalne, a `icon` i `background` wewnątrz niego są **od siebie niezależne** — możesz podać tylko jedno z nich, oba naraz, albo pominąć `assets` całkowicie. Serwer bez zasobów graficznych po prostu wyświetli się z domyślnym wyglądem klienta.
+
+```json
+"assets": {
+  "icon": "./icon.png",
+  "background": "./bg.png"
+}
+```
+
+Wymagania, gdy dany zasób jest podany:
+
+| Zasób        | Wymagania                                              |
+| ------------ | -------------------------------------------------------|
+| `icon`       | Kwadratowy PNG, wymiary między 64×64 a 512×512 px       |
+| `background` | PNG, dokładnie 1920×1080 px                             |
+
+Ścieżki muszą być względne i zaczynać się od `./`.
+
+---
+
 ## Linki społecznościowe
 
 Pole `social` jest opcjonalne. Możesz podać dowolną kombinację poniższych linków:
@@ -122,6 +140,8 @@ Wszystkie pola URL muszą zaczynać się od `https://`. Pole `teamspeak` przyjmu
 ---
 
 ## Kompletny przykład
+
+Poniżej przykład z wszystkimi polami, łącznie z opcjonalnymi (`languages`, `assets`, `social`) — w Twoim manifeście możesz pominąć dowolne z nich:
 
 ```json
 {
@@ -172,5 +192,5 @@ CI uruchamia te same sprawdzenia automatycznie po otwarciu Pull Requesta.
 | `"addresses" is required`           | Dodaj co najmniej jeden adres serwera                               |
 | `Invalid category`                  | Użyj wartości z tabeli kategorii powyżej                            |
 | `Language code pattern mismatch`    | Kody języków muszą być dwuliterowe i pisane dużymi literami: `PL`, `EN` |
-| `Icon file not found`               | Sprawdź czy `icon.png` istnieje i czy ścieżka w manifeście jest poprawna |
-| `Background dimensions incorrect`   | Obraz tła musi mieć dokładnie 1920×1080 px                          |
+| `Icon file not found`               | Ścieżka `assets.icon` w manifeście nie zgadza się z rzeczywistą nazwą/lokalizacją pliku |
+| `Background dimensions incorrect`   | Jeśli podajesz `assets.background`, obraz musi mieć dokładnie 1920×1080 px          |

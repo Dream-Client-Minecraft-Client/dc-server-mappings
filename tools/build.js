@@ -135,10 +135,8 @@ function validateOutput(outputPath) {
         log("error", `${serverId}: Brak categories`);
         isValid = false;
       }
-      if (!serverData.assets?.icon || !serverData.assets?.background) {
-        log("error", `${serverId}: Brak wymaganych zasobów graficznych`);
-        isValid = false;
-      }
+      // icon i background są opcjonalne, niezależnie od siebie — brak jednego lub
+      // obu nie jest błędem, klient obsługuje wszystkie kombinacje.
     }
 
     if (isValid) log("info", "Walidacja pliku wynikowego zakończona pomyślnie");

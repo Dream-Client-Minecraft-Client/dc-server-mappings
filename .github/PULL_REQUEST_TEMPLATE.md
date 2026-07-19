@@ -11,8 +11,8 @@ Zanim klikniesz "Create pull request", upewnij się, że wszystko poniżej jest 
 ### Weryfikacja
 
 - [ ] Pole `id` jest identyczne z nazwą folderu w `servers/`
-- [ ] `icon.png` jest kwadratowym plikiem PNG o wymiarach 64×64 – 512×512 px
-- [ ] `bg.png` ma dokładnie 1920×1080 px
+- [ ] Jeśli dołączam `icon.png`: jest kwadratowym plikiem PNG o wymiarach 64×64 – 512×512 px
+- [ ] Jeśli dołączam `bg.png`: ma dokładnie 1920×1080 px
 - [ ] Wszystkie adresy URL w sekcji `social` zaczynają się od `https://`
 - [ ] Serwer jest aktualnie dostępny (online)
 - [ ] Rozumiem, że przegląd i wdrożenie mogą potrwać kilka dni

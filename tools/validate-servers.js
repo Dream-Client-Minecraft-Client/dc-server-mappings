@@ -216,10 +216,9 @@ function validateServerAssets(manifestPath) {
     const entryDir = path.dirname(manifestPath);
     const assets = entry.assets;
 
-    if (!assets) {
-      logError(`Brak sekcji assets dla ${serverName(manifestPath)}`);
-      return false;
-    }
+    // "assets" jest w pełni opcjonalne, tak samo jak "icon" i "background" osobno —
+    // serwer może nie mieć żadnych zasobów wizualnych, tylko jeden z nich, albo oba.
+    if (!assets) return true;
 
     let allValid = true;
 

@@ -24,13 +24,15 @@ Nie możesz edytować tego repozytorium bezpośrednio — nie masz do niego upra
 
 W swoim forku otwórz katalog `servers/` i utwórz nowy podfolder. Nazwa folderu to `id` Twojego serwera — używaj tylko małych liter i myślników (np. `moj-serwer`).
 
-Wewnątrz tego folderu umieść trzy pliki:
+Wewnątrz tego folderu umieść plik `manifest.json` (wymagany) oraz opcjonalnie własną ikonę i/lub tło:
 
-| Plik            | Co to jest                                                          |
-| --------------- | ------------------------------------------------------------------- |
-| `manifest.json` | Dane serwera — patrz [manifest-format.md](manifest-format.md)             |
-| `icon.png`      | Kwadratowa ikona, 64–512 px — patrz [assets.md](assets.md)          |
-| `bg.png`        | Obraz tła, dokładnie 1920×1080 px                                   |
+| Plik            | Wymagany?    | Co to jest                                                          |
+| --------------- | ------------ | --------------------------------------------------------------------|
+| `manifest.json` | tak          | Dane serwera — patrz [manifest-format.md](manifest-format.md)       |
+| `icon.png`      | opcjonalnie  | Kwadratowa ikona, 64–512 px — patrz [assets.md](assets.md)          |
+| `bg.png`        | opcjonalnie  | Obraz tła, dokładnie 1920×1080 px — patrz [assets.md](assets.md)    |
+
+Możesz dodać oba pliki graficzne, tylko jeden z nich, albo żaden — serwer bez własnych grafik po prostu użyje domyślnego wyglądu klienta.
 
 Nazwa folderu musi być identyczna z wartością pola `id` w manifeście — jeśli się różnią, walidacja automatycznie odrzuci zgłoszenie.
 

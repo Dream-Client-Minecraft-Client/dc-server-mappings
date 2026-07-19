@@ -152,10 +152,10 @@ function validateServerAssets(manifestPath) {
     const entryDir = path.dirname(manifestPath);
     const assets = entry.assets;
 
-    if (!assets) {
-      logError(`Brak sekcji assets dla ${serverName(manifestPath)}`);
-      return false;
-    }
+    // "assets" oraz każde z pól "icon"/"background" wewnątrz są w pełni opcjonalne
+    // i niezależne od siebie — serwer może nie mieć żadnego, tylko jeden z nich,
+    // albo oba naraz. Walidujemy wymiary/istnienie tylko tego, co faktycznie podano.
+    if (!assets) return true;
 
     let allValid = true;
 
@@ -173,11 +173,6 @@ function validateServerAssets(manifestPath) {
       } else if (!checkBackground(bgPath)) {
         allValid = false;
       }
-    } else {
-      logError(`Brak obrazu tła dla ${serverName(manifestPath)}`, [
-        "Jak naprawić: dodaj wpis background w sekcji assets wskazujący na PNG 1920x1080.",
-      ]);
-      allValid = false;
     }
 
     if (assets.icon) {
@@ -194,11 +189,6 @@ function validateServerAssets(manifestPath) {
       } else if (!checkIcon(iconPath)) {
         allValid = false;
       }
-    } else {
-      logError(`Brak ikony dla ${serverName(manifestPath)}`, [
-        "Jak naprawić: dodaj wpis icon w sekcji assets wskazujący na kwadratowy PNG (zalecane 256x256).",
-      ]);
-      allValid = false;
     }
 
     return allValid;

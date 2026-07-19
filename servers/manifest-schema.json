@@ -3,7 +3,7 @@
   "title": "DC Server Manifest Schema",
   "description": "Schema for Dream Client server manifest files",
   "type": "object",
-  "required": [ "id", "name", "description", "addresses", "primaryAddress", "minecraftVersions", "primaryMinecraftVersion", "categories", "assets" ],
+  "required": [ "id", "name", "description", "addresses", "primaryAddress", "minecraftVersions", "primaryMinecraftVersion", "categories" ],
   "properties": {
     "id": {
       "type": "string",
@@ -100,8 +100,7 @@
     },
     "assets": {
       "type": "object",
-      "description": "Server visual assets",
-      "required": ["icon", "background"],
+      "description": "Server visual assets (both fields optional, independently)",
       "properties": {
         "icon": {
           "type": "string",
