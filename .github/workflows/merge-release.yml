@@ -7,8 +7,6 @@ on:
     paths:
       - "servers/**/*.png"
       - "servers/**/manifest.json"
-  workflow_dispatch: {}
-
 permissions:
   contents: write
 
@@ -30,33 +28,6 @@ jobs:
       - name: Zbuduj plik wynikowy
         run: npm run build
 
-      - name: Opublikuj dist na branchu `dist` (serwowane przez raw.githubusercontent.com)
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name  "github-actions[bot]"
-
-          # Osobny worktree, żeby nie mieszać wygenerowanych plików z historią źródeł na main.
-          git fetch origin dist || true
-          if git show-ref --verify --quiet refs/remotes/origin/dist; then
-            git worktree add dist-publish origin/dist
-          else
-            git worktree add --detach dist-publish
-            git -C dist-publish checkout --orphan dist
-            git -C dist-publish rm -rf . > /dev/null 2>&1 || true
-          fi
-
-          rm -rf dist-publish/*
-          cp -r dist/* dist-publish/
-
-          cd dist-publish
-          git add -A
-          if git diff --cached --quiet; then
-            echo "Brak zmian w dist, pomijam commit."
-          else
-            git commit -m "Build dist z ${GITHUB_SHA::7}"
-            git push origin HEAD:dist
-          fi
-
       - name: Spakuj katalog dist
         run: zip -r dist.zip dist
 
@@ -64,13 +35,8 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name  "github-actions[bot]"
-          TAG="release-${GITHUB_SHA::7}"
-          if git ls-remote --tags origin | grep -q "refs/tags/$TAG$"; then
-            echo "Tag $TAG już istnieje na origin, pomijam (prawdopodobnie ręczny re-run tego samego commita)."
-          else
-            git tag "$TAG"
-            git push origin "$TAG"
-          fi
+          git tag release-${GITHUB_SHA::7}
+          git push origin release-${GITHUB_SHA::7}
 
       - name: Utwórz GitHub Release
         uses: softprops/action-gh-release@v2
